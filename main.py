@@ -1,5 +1,3 @@
-import json
-
 import pygame_gui as pg_gui
 import pygame as pg
 import assets
