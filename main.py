@@ -1,6 +1,7 @@
+import json
+
 import pygame_gui as pg_gui
 import pygame as pg
-import json
 import assets
 
 # later implement styling with css according to pygame gui documentation
