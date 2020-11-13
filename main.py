@@ -84,10 +84,12 @@ while MASTER_LOOP and GAME_STATE == 'GAME':
             # later make this go back to the main menu
         if event.type == pg.MOUSEBUTTONDOWN:
             x, y = event.pos
+            '''
             for card in cards.P1_HAND:
                 if card.rect.collidepoint(x, y):
-                    print('collision')
-
+                    cards.P1_HAND.remove(card)
+                    cards.P1_HAND.insert(len(cards.P1_HAND) -1, card)
+            '''
         if event.type == pg.VIDEORESIZE:
             SCREEN_SIZE = event.size
             SCREEN = pg.display.set_mode(SCREEN_SIZE, pg.RESIZABLE)
@@ -103,6 +105,9 @@ while MASTER_LOOP and GAME_STATE == 'GAME':
     GUI_MANAGER.draw_ui(SCREEN)
     
     cards.render_hand(SCREEN, SCREEN_SIZE, cards.P1_HAND)
+    cards.render_hand(SCREEN, SCREEN_SIZE, cards.P2_HAND)
+    cards.render_hand(SCREEN, SCREEN_SIZE, cards.P3_HAND)
+    cards.render_hand(SCREEN, SCREEN_SIZE, cards.P4_HAND)
 
     pg.display.update()
 

@@ -114,5 +114,21 @@ def deal_cards(deck, player_count=4):
 def render_hand(screen, screen_size, hand):
     if hand == P1_HAND:
         for card in P1_HAND:
-            card.rect.left = P1_HAND.index(card)*20
+            card.rect.left = 2*card.rect.width + P1_HAND.index(card)*card.rect.width
+            card.rect.top = screen_size[1] - card.rect.height
             screen.blit(card.img, card.rect)#(20*P1_HAND.index(card), screen_size[1]-300))
+    if hand == P2_HAND:
+        for card in P2_HAND:
+            card.rect.left = 0
+            card.rect.top = card.rect.height + P2_HAND.index(card)*card.rect.height
+            screen.blit(card.img, card.rect)
+    if hand == P3_HAND:
+        for card in P3_HAND:
+            card.rect.left = 2*card.rect.width + P3_HAND.index(card)*card.rect.width
+            card.rect.top = 0
+            screen.blit(card.img, card.rect)
+    if hand == P4_HAND:
+        for card in P4_HAND:
+            card.rect.left = screen_size[0] - card.rect.width
+            card.rect.top = card.rect.height + P4_HAND.index(card)*card.rect.height
+            screen.blit(card.img, card.rect)
