@@ -9,3 +9,5 @@ METAL_ENV = pg.image.load('assets/metal_env.png')
 NATURE_ENV = pg.image.load('assets/nature_env.jpg')
 WATER_ENV = pg.image.load('assets/water_env.png')
 WIND_ENV = pg.image.load('assets/wind_env.png')
+
+TEST_IMAGE = pg.image.load('assets/wind_env.png')

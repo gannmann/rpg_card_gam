@@ -1,15 +1,29 @@
+import random
 import pygame as pg
 import assets
 pg.init()
 
+# deck hands
+STORY_DECK = []
+REACTION_DECK = []
+ATTACK_DECK = []
+ENV_DECK = []
+MONSTER_DECK = []
+P1_HAND = []
+P2_HAND = []
+P3_HAND = []
+P4_HAND = []
+DISCARD = []
+
 class Card():
-    def __init__(self, uid, hand, name, desc, img):
-        self.uid = uid # unique to each individual card e.g. 2 of the same attack cards will have different ids
-        self.hand = hand # Deck, Player 1, 2, 3, 4, or Discard; lists
+    def __init__(self, card_type, hand, name, desc, cost, img):
+        self.type = card_type
         self.name = name
         self.desc = desc # description
+        self.cost = cost
         self.img = img # image
-
+        hand.append(self)
+    
     def play(self):
         # plays the card and discards it
         pass
@@ -43,3 +57,58 @@ class AttackCard(Card):
 
 # Monster Cards
 
+'''
+Rather than having a deck class, decks will just be array lists of cards
+1. Generate card decks
+2. Shuffle decks
+3. Draw cards into hands
+4. 
+
+'''
+
+def init_decks():
+    Card('STORY', STORY_DECK, 'Help Townspeople', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Buy Supplies', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Sell Supplies', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Build Reinforcements', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Check Perimeter', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Observe Livestock', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Talk to Townspeople', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Talk to Farmers', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Watch for Sus Chars', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Speak with Castle Servants', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Reinforce Castle', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Pray', 'dummy description', 1, assets.TEST_IMAGE)
+    
+    #Card('STORY', STORY_DECK, 'Investigate the Forest', 'dummy description', 2, assets.TEST_IMAGE)
+    '''
+    finish gen
+    '''
+
+    # Shuffling
+    random.shuffle(STORY_DECK)
+
+    # Handing out cards
+    deal_cards(STORY_DECK)
+
+    # Printing
+    for item in P1_HAND:
+        print(item.name)
+
+    for item in P2_HAND:
+        print(item.name)
+
+    for item in P3_HAND:
+        print(item.name)
+
+    for item in P4_HAND:
+        print(item.name)
+
+def deal_cards(deck, player_count=4):
+    # IMPORTANT!!! Decks must be divisible by the player count
+    if player_count == 4:
+        while len(deck) != 0:
+            P1_HAND.append(deck.pop(len(deck)-1))
+            P2_HAND.append(deck.pop(len(deck)-1))
+            P3_HAND.append(deck.pop(len(deck)-1))
+            P4_HAND.append(deck.pop(len(deck)-1))

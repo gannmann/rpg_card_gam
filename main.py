@@ -1,6 +1,7 @@
 import pygame_gui as pg_gui
 import pygame as pg
 import assets
+import cards
 
 # later implement styling with css according to pygame gui documentation
 
@@ -50,7 +51,34 @@ while MASTER_LOOP and GAME_STATE == 'MAIN_MENU':
         if event.type == pg.USEREVENT:
             if event.user_type == pg_gui.UI_BUTTON_PRESSED:
                 if event.ui_element == start_button:
+                    # start new game
+                    GUI_MANAGER = pg_gui.UIManager((SCREEN_SIZE))
+                    cards.init_decks()
                     GAME_STATE = 'GAME'
+        GUI_MANAGER.process_events(event)
+    GUI_MANAGER.update(DT)
+    SCREEN.fill((0, 0, 0))
+    GUI_MANAGER.draw_ui(SCREEN)
+    pg.display.update()
+
+'''
+Game Loop
+'''
+while MASTER_LOOP and GAME_STATE == 'GAME':
+    DT = CLOCK.tick(FPS)/1000.0
+    # input
+    for event in pg.event.get():
+        if event.type == pg.QUIT:
+            MASTER_LOOP = False
+
+        if event.type == pg.VIDEORESIZE:
+            SCREEN_SIZE = event.size
+            SCREEN = pg.display.set_mode(SCREEN_SIZE, pg.RESIZABLE)
+            GUI_MANAGER = pg_gui.UIManager((SCREEN_SIZE))
+        '''
+        if event.type == pg.USEREVENT:
+            if event.user_type == pg_gui.UI_BUTTON_PRESSED:
+        '''
         GUI_MANAGER.process_events(event)
     GUI_MANAGER.update(DT)
 
@@ -58,7 +86,6 @@ while MASTER_LOOP and GAME_STATE == 'MAIN_MENU':
     GUI_MANAGER.draw_ui(SCREEN)
     
     pg.display.update()
-
 
 
 pg.quit()
