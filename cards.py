@@ -22,6 +22,7 @@ class Card():
         self.desc = desc # description
         self.cost = cost
         self.img = img # image
+        self.rect = self.img.get_rect()
         hand.append(self)
     
     def play(self):
@@ -34,10 +35,6 @@ class Card():
 
     def discard(self):
         # removes card from the current hand and places it in the discard pile
-        pass
-
-    def render(self, screen):
-        # location depends on order in hand and which hand
         pass
 
 class AttackCard(Card):
@@ -67,18 +64,18 @@ Rather than having a deck class, decks will just be array lists of cards
 '''
 
 def init_decks():
-    Card('STORY', STORY_DECK, 'Help Townspeople', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Buy Supplies', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Sell Supplies', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Build Reinforcements', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Check Perimeter', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Observe Livestock', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Talk to Townspeople', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Talk to Farmers', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Watch for Sus Chars', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Speak with Castle Servants', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Reinforce Castle', 'dummy description', 1, assets.TEST_IMAGE)
-    Card('STORY', STORY_DECK, 'Pray', 'dummy description', 1, assets.TEST_IMAGE)
+    Card('STORY', STORY_DECK, 'Help Townspeople', 'dummy description', 1, assets.C1)
+    Card('STORY', STORY_DECK, 'Buy Supplies', 'dummy description', 1, assets.C2)
+    Card('STORY', STORY_DECK, 'Sell Supplies', 'dummy description', 1, assets.C3)
+    Card('STORY', STORY_DECK, 'Build Reinforcements', 'dummy description', 1, assets.C4)
+    Card('STORY', STORY_DECK, 'Check Perimeter', 'dummy description', 1, assets.C5)
+    Card('STORY', STORY_DECK, 'Observe Livestock', 'dummy description', 1, assets.C6)
+    Card('STORY', STORY_DECK, 'Talk to Townspeople', 'dummy description', 1, assets.C7)
+    Card('STORY', STORY_DECK, 'Talk to Farmers', 'dummy description', 1, assets.C8)
+    Card('STORY', STORY_DECK, 'Watch for Sus Chars', 'dummy description', 1, assets.C9)
+    Card('STORY', STORY_DECK, 'Speak with Castle Servants', 'dummy description', 1, assets.C10)
+    Card('STORY', STORY_DECK, 'Reinforce Castle', 'dummy description', 1, assets.C11)
+    Card('STORY', STORY_DECK, 'Pray', 'dummy description', 1, assets.C12)
     
     #Card('STORY', STORY_DECK, 'Investigate the Forest', 'dummy description', 2, assets.TEST_IMAGE)
     '''
@@ -112,3 +109,10 @@ def deal_cards(deck, player_count=4):
             P2_HAND.append(deck.pop(len(deck)-1))
             P3_HAND.append(deck.pop(len(deck)-1))
             P4_HAND.append(deck.pop(len(deck)-1))
+
+
+def render_hand(screen, screen_size, hand):
+    if hand == P1_HAND:
+        for card in P1_HAND:
+            card.rect.left = P1_HAND.index(card)*20
+            screen.blit(card.img, card.rect)#(20*P1_HAND.index(card), screen_size[1]-300))

@@ -63,6 +63,17 @@ while MASTER_LOOP and GAME_STATE == 'MAIN_MENU':
 
 '''
 Game Loop
+
+Initialize game, then
+  1. Buy Round
+    a. 
+  2. Story Round
+    
+  3. Combat Round
+    a. draw environment
+    b. draw monsters
+    c. loop until combat is resolved.
+
 '''
 while MASTER_LOOP and GAME_STATE == 'GAME':
     DT = CLOCK.tick(FPS)/1000.0
@@ -70,6 +81,12 @@ while MASTER_LOOP and GAME_STATE == 'GAME':
     for event in pg.event.get():
         if event.type == pg.QUIT:
             MASTER_LOOP = False
+            # later make this go back to the main menu
+        if event.type == pg.MOUSEBUTTONDOWN:
+            x, y = event.pos
+            for card in cards.P1_HAND:
+                if card.rect.collidepoint(x, y):
+                    print('collision')
 
         if event.type == pg.VIDEORESIZE:
             SCREEN_SIZE = event.size
@@ -85,8 +102,9 @@ while MASTER_LOOP and GAME_STATE == 'GAME':
     SCREEN.fill((0, 0, 0))
     GUI_MANAGER.draw_ui(SCREEN)
     
-    pg.display.update()
+    cards.render_hand(SCREEN, SCREEN_SIZE, cards.P1_HAND)
 
+    pg.display.update()
 
 pg.quit()
 
