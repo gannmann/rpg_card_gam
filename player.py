@@ -4,7 +4,7 @@ global P3
 global P4
 
 class Player():
-    def __init__(self, health, attack, defense, speed, points=0):
+    def __init__(self, health, attack, defense, speed, points=1):
         self.max_health = health
         self.current_health = health
         self.attack = attack
