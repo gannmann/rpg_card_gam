@@ -2,6 +2,7 @@ import pygame_gui as pg_gui
 import pygame as pg
 import assets
 import cards
+import player
 
 # later implement styling with css according to pygame gui documentation
 
@@ -26,6 +27,7 @@ FPS = 60
 GUI_MANAGER = pg_gui.UIManager((SCREEN_SIZE))
 
 GAME_STATE = 'MAIN_MENU'
+ROUND = 'BUY'
 
 while MASTER_LOOP and GAME_STATE == 'MAIN_MENU':
     DT = CLOCK.tick(FPS)/1000.0
@@ -54,6 +56,7 @@ while MASTER_LOOP and GAME_STATE == 'MAIN_MENU':
                     # start new game
                     GUI_MANAGER = pg_gui.UIManager((SCREEN_SIZE))
                     cards.init_decks()
+                    player.init_players()
                     GAME_STATE = 'GAME'
         GUI_MANAGER.process_events(event)
     GUI_MANAGER.update(DT)
@@ -75,6 +78,8 @@ Initialize game, then
     c. loop until combat is resolved.
 
 '''
+card_dragging = False
+card_dragged = None
 while MASTER_LOOP and GAME_STATE == 'GAME':
     DT = CLOCK.tick(FPS)/1000.0
     # input
@@ -84,12 +89,46 @@ while MASTER_LOOP and GAME_STATE == 'GAME':
             # later make this go back to the main menu
         if event.type == pg.MOUSEBUTTONDOWN:
             x, y = event.pos
-            '''
-            for card in cards.P1_HAND:
-                if card.rect.collidepoint(x, y):
-                    cards.P1_HAND.remove(card)
-                    cards.P1_HAND.insert(len(cards.P1_HAND) -1, card)
-            '''
+
+            if ROUND == 'BUY':
+                for card in cards.P1_HAND:
+                    if card.rect.collidepoint(x, y):
+                        player.P1.points += card.cost # add value of card
+                        cards.DISCARD.append(card)
+                        cards.P1_HAND.remove(card) # remove it
+                for card in cards.P2_HAND:
+                    if card.rect.collidepoint(x, y):
+                        player.P2.points += card.cost # add value of card
+                        cards.DISCARD.append(card)
+                        cards.P2_HAND.remove(card) # remove it
+                for card in cards.P3_HAND:
+                    if card.rect.collidepoint(x, y):
+                        player.P3.points += card.cost # add value of card
+                        cards.DISCARD.append(card)
+                        cards.P3_HAND.remove(card) # remove it
+                for card in cards.P4_HAND:
+                    if card.rect.collidepoint(x, y):
+                        player.P4.points += card.cost # add value of card
+                        cards.DISCARD.append(card)
+                        cards.P4_HAND.remove(card) # remove it
+
+                for card in cards.SHOP_HAND:
+                    if card.rect.collidepoint(event.pos):
+                        card_dragging = True
+                        card_dragged = card
+                        mouse_x, mouse_y = event.pos
+                        offset_x = card.rect.x - mouse_x
+                        offset_y = card.rect.y - mouse_y
+        elif event.type == pg.MOUSEBUTTONUP:
+            if ROUND == 'BUY':
+                card_dragging = False
+        elif event.type == pg.MOUSEMOTION:
+            if ROUND == 'BUY':
+                if card_dragging:
+                    mouse_x, mouse_y = event.pos
+                    card_dragged.rect.x = mouse_x + offset_x
+                    card_dragged.rect.y = mouse_y + offset_y
+
         if event.type == pg.VIDEORESIZE:
             SCREEN_SIZE = event.size
             SCREEN = pg.display.set_mode(SCREEN_SIZE, pg.RESIZABLE)
@@ -104,10 +143,10 @@ while MASTER_LOOP and GAME_STATE == 'GAME':
     SCREEN.fill((0, 0, 0))
     GUI_MANAGER.draw_ui(SCREEN)
     
-    cards.render_hand(SCREEN, SCREEN_SIZE, cards.P1_HAND)
-    cards.render_hand(SCREEN, SCREEN_SIZE, cards.P2_HAND)
-    cards.render_hand(SCREEN, SCREEN_SIZE, cards.P3_HAND)
-    cards.render_hand(SCREEN, SCREEN_SIZE, cards.P4_HAND)
+    cards.render_hand(SCREEN, SCREEN_SIZE, font=assets.POINT_FONT, card_dragged=card_dragged)
+    
+
+    player.render_player_labels(assets.POINT_FONT, SCREEN, SCREEN_SIZE)
 
     pg.display.update()
 

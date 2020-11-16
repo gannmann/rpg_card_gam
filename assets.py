@@ -1,6 +1,8 @@
 import pygame as pg
 pg.init()
+pg.font.init()
 
+POINT_FONT = pg.font.Font('assets/Fira_Code/static/FiraCode-Medium.ttf', 16)
 
 ACID_ENV = pg.image.load('assets/acid_env.png')
 FIRE_ENV = pg.image.load('assets/fire_env.png')
