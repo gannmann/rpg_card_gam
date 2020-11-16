@@ -87,6 +87,8 @@ while MASTER_LOOP:
 
     # BUY ROUND
 
+    # Make it possible to buy cards from discard
+
     card_dragging = False
     card_dragged = None
     end_buy_button = pg_gui.elements.UIButton(relative_rect=pg.Rect((SCREEN_SIZE[0]//2.5, SCREEN_SIZE[1]//2), (150, 100)),
@@ -259,8 +261,8 @@ while MASTER_LOOP:
                 if event.user_type == pg_gui.UI_BUTTON_PRESSED:
                     if event.ui_element == end_story_button:
                         for card in cards.STORY_HAND:
-                            cards.STORY_HAND.remove(card)
                             cards.STORY_DISCARD.append(card)
+                            cards.STORY_HAND.remove(card)
                         GAME_STATE = 'COMBAT_ROUND'
             
             GUI_MANAGER.process_events(event)

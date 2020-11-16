@@ -86,8 +86,6 @@ Rather than having a deck class, decks will just be array lists of cards
     1. discard played story cards
     2. Draw random environment
     3. Draw random monsters
-
-
 '''
 
 def init_decks():
